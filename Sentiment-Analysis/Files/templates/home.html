@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Set background color to black */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h3 {
+            text-align: center;
+            color: #fff; /* Change text color to white */
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #8a2be2; /* Set container background color to violet */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #8a2be2; /* Set container background color to violet */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffcc00;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        .sentiment-section {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #8a2be2; /* Set container background color to violet */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sentiment-box {
+            margin-bottom: 20px;
+        }
+
+        .sentiment-message {
+            color: #fff; /* Change text color to white */
+        }
+
+        .review-details {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .review-details label {
+            font-weight: bold;
+            font-family: 'Calibri', sans-serif;
+        }
+
+        .review-details p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Flipkart </h1>
+    <h3>Please drop a review for our products </h3>
+
+    <form action="/prediction" method="post">
+        <input type="text" name="reviewer_name" required placeholder="Reviewer name"> <br><br>
+
+        <input type="text" name="product_name" required placeholder="Product"><br><br>
+        
+        <label for="review">Enter your review:</label><br>
+        <textarea name="review" rows="4" cols="50" required {% if not review %}placeholder="{{ message }}"{% endif %}></textarea><br><br>
+        
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction %}
+    <div class="container">
+        <div class="sentiment-section">
+            <div class="review-details">
+                <label>Reviewer name:</label>
+                <p style="font-weight: bold; font-family: 'Calibri', sans-serif;">{{ request.form.get('reviewer_name') }}</p>
+                <label>Product name:</label>
+                <p style="font-weight: bold; font-family: 'Calibri', sans-serif;">{{ request.form.get('product_name') }}</p>
+                <label>Enter your review:</label>
+                <p style="font-weight: bold; font-family: 'Calibri', sans-serif;">{{ request.form.get('review') }}</p>
+            </div>
+            <div class="sentiment-box">
+                <h2>Sentiment analysis:</h2>
+                <p class="sentiment-message">That was a {{ prediction }} sentiment. Thank you for your feedback.</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>
